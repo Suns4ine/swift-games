@@ -1,5 +1,5 @@
 //: Playground - noun: a place where people can play
-//🐭🧀🍽◾️◻️
+//🐭🧀🍽◾️◻️🕸🍪🍗
 
 import UIKit
 
@@ -18,8 +18,8 @@ struct Mouse {
 }
 
 struct Cheese {
-    var x: Int
-    var y: Int
+    var x: Int?
+    var y: Int?
     var emoji: String
     var alive: Bool
 }
@@ -36,8 +36,12 @@ struct Room {
     let length: Int
     static var mouse  = Mouse(x: 1, y: 1, emoji: "🐭", alive: true)
     static var cheese = Cheese(x: 3, y: 3, emoji: "🧀", alive: true)
+    static var coockie = Cheese(x: 4, y: 5, emoji: "🍪", alive: true)
+    static var poultry = Cheese(x: 7, y: 3, emoji: "🍗", alive: true)
     static var plate = Plate(x: 8, y: 7, emoji: "🍽", alive: true)
+    static var numb = 0
     
+    static var eat = [Room.cheese, Room.coockie, Room.poultry]
     
     mutating func traffic(traf: Coordinat) {
      
@@ -48,51 +52,64 @@ struct Room {
         case Coordinat.left:
             Room.mouse.y -= 1
             numY += 1
-            if Room.cheese.y == Room.mouse.y && Room.cheese.x == Room.mouse.x && Room.cheese.alive == true {
-                Room.cheese.y -= 1
+            for var eats in Room.eat {
+                if Room.mouse.x == eats.x && Room.mouse.y == eats.y && eats.alive == true {
+                    eats.y! -= 1
+                }
             }
         case Coordinat.right:
             Room.mouse.y += 1
             numY -= 1
-            if Room.cheese.y == Room.mouse.y && Room.cheese.x == Room.mouse.x && Room.cheese.alive == true {
-                Room.cheese.y += 1
+            for var eats in Room.eat {
+                if Room.mouse.x == eats.x && Room.mouse.y == eats.y && eats.alive == true {
+                    eats.y! += 1
+                }
             }
         case Coordinat.up:
             Room.mouse.x -= 1
             numX += 1
-            if Room.cheese.y == Room.mouse.y && Room.cheese.x == Room.mouse.x && Room.cheese.alive == true {
-                Room.cheese.x -= 1
+            for var eats in Room.eat {
+                if Room.mouse.x == eats.x && Room.mouse.y == eats.y && eats.alive == true {
+                    eats.x! -= 1
+                }
             }
         case Coordinat.down:
             Room.mouse.x += 1
             numX -= 1
-            if Room.cheese.y == Room.mouse.y && Room.cheese.x == Room.mouse.x && Room.cheese.alive == true {
-                Room.cheese.x += 1
+            for var eats in Room.eat {
+                if Room.mouse.x == eats.x && Room.mouse.y == eats.y && eats.alive == true {
+                    eats.x! += 1
+                }
             }
         }
         
-        if checkCheeseCoordinat(coordinat: &Room.cheese) == true && Room.cheese.alive == true {
-            if numX != 0 {
-                Room.mouse.x += numX
-                Room.cheese.x += numX
-            } else if numY != 0 {
-                Room.mouse.y += numY
-                Room.cheese.y += numY
+        for var eats in Room.eat {
+            if checkCheeseCoordinat(coordinat: &eats) == true && eats.alive == true {
+                if numX != 0 {
+                    Room.mouse.x += numX
+                    eats.x! += numX
+                } else if numY != 0 {
+                    Room.mouse.y += numY
+                    eats.y! += numY
+                }
             }
         }
-        
-        if Room.cheese.x == Room.plate.x && Room.cheese.y == Room.plate.y {
-        
-            Room.cheese.alive = false
-            Room.cheese.x = -1
-            Room.cheese.y = -1
-            Room.plate.alive = false
-            print("""
-                В крысу, как всегда!
-                Мммм, спизженное, вдвойне вкуснее.
-                Чисто ты, коль.
-                """)
-            
+        for var eats in Room.eat {
+            if eats.x == Room.plate.x && eats.y == Room.plate.y {
+                
+                eats.alive = false
+                eats.x = nil
+                eats.y = nil
+                Room.numb += 1
+                if Room.numb == Room.eat.count {
+                Room.plate.alive = false
+                print("""
+                    В крысу, как всегда!
+                    Мммм, спизженное, вдвойне вкуснее.
+                    Чисто ты, коль.
+                    """)
+                }
+            }
         }
         
         checkCoordinat(coordinat: &Room.mouse)
@@ -101,24 +118,27 @@ struct Room {
     
     func checkCheeseCoordinat(coordinat: inout Cheese) -> Bool {
     
-        switch (coordinat.x, coordinat.y) {
-        case (coordinat.x, coordinat.y) where coordinat.x >= width && coordinat.y >= length:
-            return true
-        case (coordinat.x, coordinat.y) where coordinat.x <= 1 && coordinat.y <= 1:
-            return true
-        case (coordinat.x, _) where coordinat.x >= width:
-            return true
-        case (coordinat.x, _) where coordinat.x < 1:
-            return true
-        case (_, coordinat.y) where coordinat.y >= length:
-            return true
-        case (_, coordinat.y) where coordinat.y < 1:
-            return true
-        default:
-            break
+        for eats in Room.eat{
+            switch (coordinat.x!, coordinat.y!) {
+            case (coordinat.x!, coordinat.y!) where coordinat.x! == eats.x! && coordinat.y == eats.y!:
+                return true
+            case (coordinat.x!, coordinat.y!) where coordinat.x! >= width && coordinat.y! >= length:
+                return true
+            case (coordinat.x!, coordinat.y!) where coordinat.x! <= 1 && coordinat.y! <= 1:
+                return true
+            case (coordinat.x!, _) where coordinat.x! >= width:
+                return true
+            case (coordinat.x!, _) where coordinat.x! < 1:
+                return true
+            case (_, coordinat.y!) where coordinat.y! >= length:
+                return true
+            case (_, coordinat.y!) where coordinat.y! < 1:
+                return true
+            default:
+                break
+            }
+            return false
         }
-        return false
-    }
     
     func checkCoordinat(coordinat: inout Mouse) {
         
@@ -153,7 +173,9 @@ struct Room {
                 case (0, _): print("◾️", terminator:"")
                 case (length + delta, _): print("◾️", terminator:"")
                 case (Room.mouse.x, Room.mouse.y) where Room.mouse.alive == true: print(Room.mouse.emoji, terminator:"")
-                case (Room.cheese.x, Room.cheese.y) where Room.cheese.alive == true: print(Room.cheese.emoji, terminator:"")
+                case (Room.cheese.x!, Room.cheese.y!) where Room.cheese.alive == true: print(Room.cheese.emoji, terminator:"")
+                case (Room.coockie.x!, Room.coockie.y!) where Room.coockie.alive == true: print(Room.coockie.emoji, terminator:"")
+                case (Room.poultry.x!, Room.poultry.y!) where Room.poultry.alive == true: print(Room.poultry.emoji, terminator:"")
                 case (Room.plate.x, Room.plate.y)where Room.plate.alive == true: print(Room.plate.emoji, terminator:"")
                 default:
                     print("◻️", terminator:"")
@@ -167,6 +189,8 @@ struct Room {
          Room.mouse  = Mouse(x: 1, y: 1, emoji: "🐭", alive: true)
          Room.cheese = Cheese(x: 3, y: 3, emoji: "🧀", alive: true)
          Room.plate = Plate(x: 8, y: 7, emoji: "🍽", alive: true)
+         Room.coockie = Cheese(x: 4, y: 5, emoji: "🍪", alive: true)
+         Room.poultry = Cheese(x: 7, y: 3, emoji: "🍗", alive: true)
          printRoom(position: &Room.mouse)
     }
     
@@ -176,9 +200,9 @@ struct Room {
         printRoom(position: &Room.mouse)
     }
 }
+}
 
 var room = Room(width: 10, length: 10)
-
 
 
 
