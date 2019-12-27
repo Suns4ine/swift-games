@@ -1,5 +1,5 @@
 //: Playground - noun: a place where people can play
-//🐭🧀🍽◾️◻️◻️
+//🐭🧀🍽◾️◻️
 
 import UIKit
 
@@ -90,6 +90,7 @@ struct Room {
             print("""
                 В крысу, как всегда!
                 Мммм, спизженное, вдвойне вкуснее.
+                Чисто ты, коль.
                 """)
             
         }
@@ -162,6 +163,13 @@ struct Room {
         }
     }
     
+    func newGame() {
+         Room.mouse  = Mouse(x: 1, y: 1, emoji: "🐭", alive: true)
+         Room.cheese = Cheese(x: 3, y: 3, emoji: "🧀", alive: true)
+         Room.plate = Plate(x: 8, y: 7, emoji: "🍽", alive: true)
+         printRoom(position: &Room.mouse)
+    }
+    
     init (width: Int, length: Int) {
         self.width = width
         self.length = length
@@ -170,20 +178,20 @@ struct Room {
 }
 
 var room = Room(width: 10, length: 10)
-room.traffic(traf: .down)
-room.traffic(traf: .down)
-room.traffic(traf: .right)
-room.traffic(traf: .right)
-room.traffic(traf: .right)
-room.traffic(traf: .right)
-room.traffic(traf: .right)
-room.traffic(traf: .up)
-room.traffic(traf: .right)
-room.traffic(traf: .down)
-room.traffic(traf: .down)
-room.traffic(traf: .down)
-room.traffic(traf: .down)
-room.traffic(traf: .down)
-room.traffic(traf: .down)
-room.traffic(traf: .down)
-room.traffic(traf: .down)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
