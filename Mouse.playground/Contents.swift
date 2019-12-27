@@ -51,7 +51,7 @@ class Room {
     
     static var eat = [Room.cheese, Room.coockie, Room.poultry]
     
-     func traffic(traf: Coordinat) {
+    func traffic(traf: Coordinat) {
      
         var numX = 0
         var numY = 0
@@ -115,7 +115,6 @@ class Room {
                 Room.plate.alive = false
                 print("""
                     В крысу, как всегда!
-                    Мммм, спизженное, вдвойне вкуснее.
                     Чисто ты, коль.
                     """)
                 }
@@ -126,7 +125,7 @@ class Room {
         printRoom(position: &Room.mouse)
     }
     
-    func checkCheeseCoordinat(coordinat: inout Cheese) -> Bool {
+     func checkCheeseCoordinat(coordinat: inout Cheese) -> Bool {
     
         for eats in Room.eat{
             if eats.emoji == coordinat.emoji {
@@ -222,54 +221,6 @@ class Room {
 }
 
 var room = Room(width: 10, length: 10)
-room.traffic(traf: .down)
-room.traffic(traf: .down)
-//room.traffic(traf: .down)
-//room.traffic(traf: .down)
-//room.traffic(traf: .down)
-//room.traffic(traf: .down)
-//room.traffic(traf: .right)
-//room.traffic(traf: .right)
-room.traffic(traf: .right)
-room.traffic(traf: .right)
-room.traffic(traf: .right)
-room.traffic(traf: .right)
-room.traffic(traf: .right)
-room.traffic(traf: .up)
-room.traffic(traf: .right)
-room.traffic(traf: .down)
-room.traffic(traf: .down)
-room.traffic(traf: .down)
-room.traffic(traf: .down)
-room.traffic(traf: .down)
-room.traffic(traf: .up)
-room.traffic(traf: .up)
-room.traffic(traf: .up)
-room.traffic(traf: .up)
-room.traffic(traf: .left)
-room.traffic(traf: .left)
-room.traffic(traf: .down)
-room.traffic(traf: .down)
-room.traffic(traf: .down)
-room.traffic(traf: .down)
-room.traffic(traf: .left)
-room.traffic(traf: .down)
-room.traffic(traf: .right)
-room.traffic(traf: .right)
-room.traffic(traf: .left)
-room.traffic(traf: .left)
-room.traffic(traf: .left)
-room.traffic(traf: .left)
-room.traffic(traf: .up)
-room.traffic(traf: .right)
-room.traffic(traf: .right)
-room.traffic(traf: .right)
-room.traffic(traf: .right)
-room.traffic(traf: .up)
-room.traffic(traf: .right)
-room.traffic(traf: .down)
-room.printCoordinat()
-
 
 
 
