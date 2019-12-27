@@ -17,6 +17,13 @@ struct Mouse {
     var alive: Bool
 }
 
+struct OldEat {
+    var x: Int?
+    var y: Int?
+    var emoji: String
+    var alive:  Bool
+}
+
 class Cheese {
     var x: Int?
     var y: Int?
@@ -55,6 +62,7 @@ class Room {
      
         var numX = 0
         var numY = 0
+        var oldEmoji: String = "🕸"
         
         switch traf {
         case Coordinat.left:
@@ -63,6 +71,7 @@ class Room {
             for eats in Room.eat {
                 if Room.mouse.x == eats.x && Room.mouse.y == eats.y && eats.alive == true {
                     eats.y! -= 1
+                    oldEmoji = eats.emoji
                 }
             }
         case Coordinat.right:
@@ -71,6 +80,7 @@ class Room {
             for eats in Room.eat {
                 if Room.mouse.x == eats.x && Room.mouse.y == eats.y && eats.alive == true {
                     eats.y! += 1
+                    oldEmoji = eats.emoji
                 }
             }
         case Coordinat.up:
@@ -79,6 +89,7 @@ class Room {
             for eats in Room.eat {
                 if Room.mouse.x == eats.x && Room.mouse.y == eats.y && eats.alive == true {
                     eats.x! -= 1
+                    oldEmoji = eats.emoji
                 }
             }
         case Coordinat.down:
@@ -87,21 +98,31 @@ class Room {
             for eats in Room.eat {
                 if Room.mouse.x == eats.x && Room.mouse.y == eats.y && eats.alive == true {
                     eats.x! += 1
+                    oldEmoji = eats.emoji
                 }
             }
         }
         
         for var eats in Room.eat {
-            if checkCheeseCoordinat(coordinat: &eats) == true && eats.alive == true {
-                if numX != 0 {
-                    Room.mouse.x += numX
-                    eats.x! += numX
-                } else if numY != 0 {
-                    Room.mouse.y += numY
-                    eats.y! += numY
+            if oldEmoji == eats.emoji {
+                while checkCheeseCoordinat(coordinat: &eats) == true && eats.alive == true {
+                    if numX != 0 {
+                        Room.mouse.x += numX
+                        eats.x! += numX
+                    } else if numY != 0 {
+                        Room.mouse.y += numY
+                        eats.y! += numY
+                    }
                 }
             }
         }
+        
+        for var eats in Room.eat {
+            if oldEmoji != eats.emoji {
+                checkCheeseCoordinat(coordinat: &eats)
+            }
+        }
+        
         
         for eats in Room.eat {
             if eats.x == Room.plate.x && eats.y == Room.plate.y {
@@ -222,13 +243,7 @@ class Room {
 
 var room = Room(width: 10, length: 10)
 
-
-
-
-
-
-
-
+room.printCoordinat()
 
 
 
