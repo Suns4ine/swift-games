@@ -242,7 +242,14 @@ class Room {
 }
 
 var room = Room(width: 10, length: 10)
-
+room.traffic(traf: .down)
+room.traffic(traf: .down)
+room.traffic(traf: .right)
+room.traffic(traf: .right)
+room.traffic(traf: .right)
+//room.traffic(traf: .up)
+//room.traffic(traf: .right)
+//room.traffic(traf: .down)
 room.printCoordinat()
 
 
